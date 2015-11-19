@@ -1,4 +1,4 @@
-var app = angular.module('hpApp', ['elasticsearch', 'ui.bootstrap']);
+var app = angular.module('hpApp', ['elasticsearch']);
 
 app.service('client', function (esFactory) {
   return esFactory({
@@ -7,9 +7,7 @@ app.service('client', function (esFactory) {
   });
 });
 	
-app.controller('hpCtrl', function($scope, client, $http, limitToFilter) {
-	
-	$scope.queryFilter = angular.copy($scope.query);
+app.controller('hpCtrl', function($scope, client) {
 	
 	$scope.doSearch = function() {
 		client.search({
