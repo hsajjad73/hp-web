@@ -1,13 +1,5 @@
-var app = angular.module('hpApp', ['elasticsearch']);
-
-app.service('client', function (esFactory) {
-  return esFactory({
-    host: 'http://localhost:9200',
-    log: 'trace'
-  });
-});
-	
-app.controller('hpCtrl', function($scope, client) {
+var hpControllers = angular.module('hpControllers', []);	
+hpControllers.controller('hpSearchCtrl', function($scope, client) {
 	
 	$scope.doSearch = function() {
 		client.search({
