@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Healthier Prices</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/application.css">
+  <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+  <script src= "js/elasticsearch.angular.min.js"></script>
+  <script src= "js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script src="js/controllers.js"></script>
+</head>
+
+<body>
+   
+ <div class="container" ng-app="hpApp" ng-controller="hpCtrl"> 
+	
+	<div class="text-center top-buffer">
+		<h3>Compare Health & Beauty Products</h3>
+
+		<div class="form-group">
+			<form name="iform" novalidate ng-submit="iform.search.$valid && doSearch()">
+				<input name="search" class="form-control" type="text" ng-model="query" placeholder="Search" required>
+			</form>
+		</div>	
+		<div>
+			<button class="btn btn-success" ng-click="doSearch()" ng-disabled="!query">
+				<span class="glyphicon glyphicon-search"></span> Search
+			</button>
+			<button class="btn btn-warning" ng-click="doFuzzy()" ng-disabled="!query">
+				<span class="glyphicon glyphicon-search"></span> Fuzzy&nbsp;
+			</button>
+		</div>
+	</div>
+	<div class="text-left top-buffer">
+		<div ng-show="results.length > 0">
+			<table class="table table-striped">
+			  <thead>
+				<tr>
+				  <th>Product Image</th>
+				  <th>Product Name</th>
+				  <th>Size</th>
+				  <th>Find Stores</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr ng-repeat="result in results">
+				  <td class="thumb"><img class="img-responsive" ng-src="img/{{result._source.id}}.jpg"></td>
+				  <td>{{ result._source.name }}</td>
+				  <td>{{ result._source.quantity }}</td>
+				  <td>
+					<button class="btn btn-info" ng-click="">
+						<span class="glyphicon glyphicon-search"></span> Find Stores
+					</button>
+				  </td>
+				  <!--td>{{ result._source.rrp | currency:"£":2 }}</td-->
+				</tr>
+			  </tbody>
+			</table>
+		</div>
+		<div ng-show="results.length == 0">
+			<p class="lead">No data found!</p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

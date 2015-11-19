@@ -1,0 +1,11 @@
+/*!
+* Below line is as per suggestion from Angular Bootstrap site
+* https://angular-ui.github.io/bootstrap/ 
+*/
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
+/*
+* Additional app stuff below
+*/
+.top-buffer { margin-top:20px; }

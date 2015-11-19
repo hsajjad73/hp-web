@@ -1,0 +1,75 @@
+var app = angular.module('hpApp', ['elasticsearch', 'ui.bootstrap']);
+
+app.service('client', function (esFactory) {
+  return esFactory({
+    host: 'http://localhost:9200',
+    log: 'trace'
+  });
+});
+	
+app.controller('hpCtrl', function($scope, client, $http, limitToFilter) {
+	
+	$scope.queryFilter = angular.copy($scope.query);
+	
+	$scope.doSearch = function() {
+		client.search({
+			  index: 'healthierprices',
+			  type: 'products',
+			  body: {
+			    query: {
+			      match: {
+			        _all: $scope.query
+			      }
+			    }
+			  }
+			}).then(function (resp) {
+				$scope.results = resp.hits.hits;
+			}, function (err) {
+			    console.trace(err.message);
+			});
+	}
+	
+	$scope.doFuzzy = function() {
+		client.search({
+			  index: 'healthierprices',
+			  type: 'products',
+			  body: {
+			    query: {
+			      multi_match: {
+			        fields : ['descr', 'short'],
+			        query : $scope.query,
+			        fuzziness : 'AUTO'
+			      }
+			    }
+			  }
+			}).then(function (resp) {
+				$scope.results = resp.hits.hits;
+			}, function (err) {
+			    console.trace(err.message);
+			});
+	}
+	
+	$scope.getSuggestions = function(val) {
+			client.suggest({
+			  index: 'keywords',
+			  body: {
+				    mySuggester : {
+				        text : val,
+				        completion : {
+				            field : 'suggest',
+							fuzzy : {
+				                'fuzziness' : 2
+				            }
+				        }
+				    }
+			  }
+			}).then(function(response){
+			      return response.mySuggester.map(function(item){
+			          return item.options.map(function(a){
+			        	  return a.text});
+			      });
+				}, function (err) {
+			    console.trace(err.message);
+			});
+	}
+});
