@@ -15,9 +15,9 @@ app.config(['$routeProvider',
         templateUrl: 'partials/search.html',
         controller: 'hpSearchCtrl'
       }).
-      when('/search', {
-        templateUrl: 'partials/pharmacies.html',
-        controller: 'hpPharmaLookupCtrl'
+      when('/:prodId', {
+        templateUrl: 'partials/store.html',
+        controller: 'hpStoreLookupCtrl'
       }).
       otherwise({
         redirectTo: '/'

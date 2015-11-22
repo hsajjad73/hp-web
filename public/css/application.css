@@ -8,4 +8,39 @@
 /*
 * Additional app stuff below
 */
-.top-buffer { margin-top:20px; }
+.top-buffer { margin-top: 20px; }
+
+body {
+	background-color: #FCFCFD;
+}
+
+.content {
+	margin: auto;
+	background-color: white;
+	border: 1px solid #eee;
+	width: 90%;
+	padding: 40px;
+	padding-top: 20px;
+	margin-bottom: 40px;
+}
+
+/*
+
+.logo img {
+	width: 200px;
+	height: auto;
+	padding: 10px;
+	padding-top:12px;
+	float: left;
+}
+
+
+.header {
+	width: 100%;
+	height: 40px;
+	background-color: #343D46;
+	margin-bottom: 20px;
+}
+
+
+*/

@@ -1,0 +1,30 @@
+<div class="content">
+	<img class="img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{prodId}}_IMAGE2.jpg">
+	<div class="text-left">
+		<div ng-show="results.length > 0">
+			<table class="table table-striped">
+			  <thead>
+				<tr>
+				  <th>Store</th>
+				  <th>Product Name</th>
+				  <th>Size</th>
+				  <th>RRP</th>
+				  <th>Price</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr ng-repeat="result in results">
+				  <td>{{ result.pharma_id }}</td>
+				  <td>{{ result.name }}</td>
+				  <td>{{ result.size }}</td>
+				  <td>{{ result.rrp | currency:"£":2 }}</td>
+				  <td>{{ result.price | currency:"£":2 }}</td>
+				</tr>
+			  </tbody>
+			</table>
+		</div>
+		<div ng-show="results.length == 0">
+			<p class="lead">No data found!</p>
+		</div>
+	</div>
+</div>

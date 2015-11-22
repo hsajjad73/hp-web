@@ -1,11 +1,8 @@
- <div class="container"> 
-	
-	<div class="text-center top-buffer">
-		<h3>Compare Health & Beauty Products</h3>
-
+<div class="content">
+	<div class="text-center">
 		<div class="form-group">
 			<form name="iform" novalidate ng-submit="iform.search.$valid && doSearch()">
-				<input name="search" class="form-control" type="text" ng-model="query" placeholder="Search" required>
+				<input name="search" class="form-control" type="text" ng-model="query" placeholder="Search Healthy Products" required>
 			</form>
 		</div>	
 		<div>
@@ -17,7 +14,7 @@
 			</button>
 		</div>
 	</div>
-	<div class="text-left top-buffer">
+	<div class="text-left">
 		<div ng-show="results.length > 0">
 			<table class="table table-striped">
 			  <thead>
@@ -30,13 +27,27 @@
 			  </thead>
 			  <tbody>
 				<tr ng-repeat="result in results">
-				  <td class="thumb"><img class="img-responsive" ng-src="img/{{result._source.id}}.jpg"></td>
+				  <td class="thumb">
+					<!--a href="" data-toggle="modal" data-target="#myModal"-->
+					<img class="img-responsive" ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg">
+					<!--div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								<img src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg" class="img-responsive center-block">
+							</div>
+						</div>
+					  </div>
+					</div-->
+				  </td>
 				  <td>{{ result._source.name }}</td>
 				  <td>{{ result._source.quantity }}</td>
 				  <td>
-					<button class="btn btn-info" ng-click="">
+					<a href="#/{{result._source.id}}">
+					<button class="btn btn-info">
 						<span class="glyphicon glyphicon-search"></span> Find Stores
 					</button>
+					</a>
 				  </td>
 				  <!--td>{{ result._source.rrp | currency:"£":2 }}</td-->
 				</tr>

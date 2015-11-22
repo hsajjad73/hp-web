@@ -1,4 +1,5 @@
 var hpControllers = angular.module('hpControllers', []);	
+
 hpControllers.controller('hpSearchCtrl', function($scope, client) {
 	
 	$scope.doSearch = function() {
@@ -62,4 +63,17 @@ hpControllers.controller('hpSearchCtrl', function($scope, client) {
 			    console.trace(err.message);
 			});
 	}
+});
+
+hpControllers.controller('hpStoreLookupCtrl', function($scope, $routeParams, $http) {
+    
+	$scope.prodId = $routeParams.prodId;
+	$http({
+  method: 'GET',
+  url: 'http://localhost:8080/healthy/products/'+ $routeParams.prodId
+}).then(function successCallback(response) {
+    $scope.results = response.data;
+  }, function errorCallback(response) {
+    console.trace(response.message);
+  });
 });
