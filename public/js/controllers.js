@@ -2,10 +2,23 @@ var hpControllers = angular.module('hpControllers', []);
 
 hpControllers.controller('hpSearchCtrl', function($scope, client) {
 	
-	$scope.doSearch = function() {
+	$scope.Math = window.Math;
+
+    $scope.noOfPages = 1;
+	$scope.currentPage = 1;
+    $scope.maxSize = 5;
+	
+	$scope.doSearch = function(pageNum) {
+		
+//		if($scope.query == null)
+//			return;
+
+//		$scope.currentPage = pageNum;
+
 		client.search({
 			  index: 'healthierprices',
 			  type: 'products',
+			  //from: ($scope.currentPage - 1) * 10,
 			  body: {
 			    query: {
 			      match: {
@@ -14,12 +27,17 @@ hpControllers.controller('hpSearchCtrl', function($scope, client) {
 			    }
 			  }
 			}).then(function (resp) {
-				$scope.results = resp.hits.hits;
+				$scope.results = resp;
 			}, function (err) {
 			    console.trace(err.message);
 			});
+		
 	}
 	
+	//$scope.$watch('currentPage', function() {
+		//$scope.doSearch($scope.currentPage);
+	//});
+
 	$scope.doFuzzy = function() {
 		client.search({
 			  index: 'healthierprices',
@@ -34,7 +52,7 @@ hpControllers.controller('hpSearchCtrl', function($scope, client) {
 			    }
 			  }
 			}).then(function (resp) {
-				$scope.results = resp.hits.hits;
+				$scope.results = resp;
 			}, function (err) {
 			    console.trace(err.message);
 			});
@@ -63,6 +81,7 @@ hpControllers.controller('hpSearchCtrl', function($scope, client) {
 			    console.trace(err.message);
 			});
 	}
+	
 });
 
 hpControllers.controller('hpStoreLookupCtrl', function($scope, $routeParams, $http) {
@@ -70,7 +89,7 @@ hpControllers.controller('hpStoreLookupCtrl', function($scope, $routeParams, $ht
 	$scope.prodId = $routeParams.prodId;
 	$http({
   method: 'GET',
-  url: 'http://localhost:8080/healthy/products/'+ $routeParams.prodId
+  url: 'http://ec2-52-19-171-139.eu-west-1.compute.amazonaws.com:8080/healthy/products/'+ $routeParams.prodId
 }).then(function successCallback(response) {
     $scope.results = response.data;
   }, function errorCallback(response) {

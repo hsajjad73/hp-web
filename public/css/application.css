@@ -1,46 +1,37 @@
-/*!
-* Below line is as per suggestion from Angular Bootstrap site
-* https://angular-ui.github.io/bootstrap/ 
+/**
+UIBootstrap recommended
 */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-
-/*
-* Additional app stuff below
+/**
+Footer social icon shading
 */
-.top-buffer { margin-top: 20px; }
+.navbar-text > a {
+  color: inherit; 
+  text-decoration: none;
+}
+/**
+General purpose
+*/
+.top-buffer { 
+  margin-top:30px; 
+}
 
+/**
+Sticky footer
+*/
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
-	background-color: #FCFCFD;
+  background-color: #FCFCFD;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
 }
-
-.content {
-	margin: auto;
-	background-color: white;
-	border: 1px solid #eee;
-	width: 90%;
-	padding: 40px;
-	padding-top: 20px;
-	margin-bottom: 40px;
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
 }
-
-/*
-
-.logo img {
-	width: 200px;
-	height: auto;
-	padding: 10px;
-	padding-top:12px;
-	float: left;
-}
-
-
-.header {
-	width: 100%;
-	height: 40px;
-	background-color: #343D46;
-	margin-bottom: 20px;
-}
-
-
-*/

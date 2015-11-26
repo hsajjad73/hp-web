@@ -1,5 +1,5 @@
 
-var app = angular.module('hpApp', ['elasticsearch', 'ngRoute', 'hpControllers']);
+var app = angular.module('hpApp', ['elasticsearch', 'ngRoute', 'hpControllers', 'ui.bootstrap']);
 
 app.service('client', function (esFactory) {
   return esFactory({
@@ -12,14 +12,18 @@ app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'partials/search.html',
+        templateUrl: 'views/home.html',
         controller: 'hpSearchCtrl'
       }).
-      when('/:prodId', {
-        templateUrl: 'partials/store.html',
+	  when('/search', {
+        templateUrl: 'views/home.html',
+        controller: 'hpSearchCtrl'
+      }).	  
+      when('/findStores/:prodId', {
+        templateUrl: 'views/findStores.html',
         controller: 'hpStoreLookupCtrl'
       }).
       otherwise({
-        redirectTo: '/'
+        redirectTo: 'views/error/404.html'
       });
   }]);
