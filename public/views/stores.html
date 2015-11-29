@@ -1,0 +1,31 @@
+<div class="content">
+	<!--full image-->
+	<div class="row top-buffer col-xs-offset-1 col-xs-10">
+		<img class="img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/detail_images/{{prodId}}_IMAGE2.jpg">
+	</div>
+	<!--stores table-->
+	<div class="row top-buffer">
+		<table class="table table-striped">
+		  <thead>
+			<tr>
+			  <th>Store</th>
+			  <th>Product Name</th>
+			  <th>Size</th>
+			  <th>RRP</th>
+			  <th>Price</th>
+			  <th></th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr ng-repeat="result in results">
+			  <td>{{ result.pharma_id }}</td>
+			  <td>{{ result.name }}</td>
+			  <td>{{ result.size }}</td>
+			  <td>{{ result.rrp | currency:"£":2 }}</td>
+			  <td>{{ result.price | currency:"£":2 }}</td>
+			  <td><a class="btn btn-primary" href="#" role="button"><i class="fa fa-shopping-cart"></i>&nbsp;Buy</a></td>
+			</tr>
+		  </tbody>
+		</table>
+	</div>
+</div>
