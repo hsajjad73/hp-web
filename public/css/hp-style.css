@@ -19,6 +19,7 @@ General purpose
 .top-buffer { 
   margin-top:15px; 
 }
+
 /**
 Sticky footer
 */
@@ -44,11 +45,6 @@ Spacing between grid cols
 .sm-gutter > [class*='col-'] {
     padding-right:5px;
     padding-left:5px;
-}
-
-table {
-    margin-left: 3px;
-	margin-right: 3px;
 }
 
 /* responsive text queries */

@@ -1,5 +1,5 @@
 
-var hpApp = angular.module('hpApp', ['ngRoute','elasticsearch','ui.bootstrap']);
+var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap']);
 
 /*Route Config*/
 hpApp.config(['$routeProvider',
@@ -19,23 +19,32 @@ hpApp.config(['$routeProvider',
   }]);
 
 /*Services*/
-hpApp.service('client', function (esFactory) {
+hpApp.service('esService', function (esFactory) {
   return esFactory({
     host: 'http://localhost:9200',
     log: 'trace'
   });
 });
 
+
 /*Controllers*/
 
 /*********************/
 /**Search Controller**/
 /*********************/
-hpApp.controller('SearchController', function($scope, client) {
+hpApp.controller('SearchController', function($scope, esService) {
+	
+	/* for pagination */
+	$scope.currentPage = 1;
+	$scope.maxSize = 3;
+	$scope.itemsPerPage=12;
+	
 	$scope.doSearch = function() {
-		client.search({
+		esService.search({
 		  index: 'healthierprices',
 		  type: 'products',
+		  size: 12,
+		  from: ($scope.currentPage == 1 ? 0 : (($scope.currentPage-1)*$scope.itemsPerPage)),
 		  body: {
 			query: {
 			  match: {
@@ -43,18 +52,20 @@ hpApp.controller('SearchController', function($scope, client) {
 			  }
 			}
 		  }
-		}).then(function (resp) {
-			$scope.results = resp;
+		}).then(function (response) {
+			$scope.totalItems = response.hits.total;
+			$scope.results = response.hits.hits;
 		}, function (err) {
 			console.trace(err.message);
 		});
 	}	
-	//$scope.$watch('currentPage', function() {
-		//$scope.doSearch($scope.currentPage);
-	//});
 
+	$scope.pageChanged = function() {
+		$scope.doSearch();
+	};
+  
 	$scope.doFuzzy = function() {
-		client.search({
+		esService.search({
 			  index: 'healthierprices',
 			  type: 'products',
 			  body: {
@@ -74,7 +85,7 @@ hpApp.controller('SearchController', function($scope, client) {
 	}
 	
 	$scope.getSuggestions = function(val) {
-			client.suggest({
+			esService.suggest({
 			  index: 'keywords',
 			  body: {
 				    mySuggester : {

@@ -12,12 +12,12 @@
 	  </form> 
 	</div>
 	<!-- result summary -->
-	<div class="top-buffer-2x" ng-show="results">
-		<h4>About <strong>{{results.hits.total}}</strong> products matching word '{{query}}'</h4>
+	<div class="top-buffer-2x" ng-show="results.length">
+		<h4><strong>{{totalItems}}</strong> products matching word '{{query}}'</h4>
 	</div>
 	<!-- search results -->
 	<div class="row text-center sm-gutter">
-		<div class="col-sm-3 col-xs-6" ng-repeat="result in results.hits.hits">
+		<div class="col-sm-3 col-xs-6" ng-repeat="result in results">
 			<div class="thumbnail">        
 				<img ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg">
 				<div class="caption">
@@ -29,5 +29,7 @@
 		</div>
 	</div>
 </div>
-<!--                <uib-pagination num-pages="Math.floor(results.hits.total / 10 - 0.1) + 1" current-page="currentPage" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></uib-pagination>
-            -->
+<div class="row" ng-show="results.length">
+	 <uib-pagination items-per-page="itemsPerPage" class="pagination-sm pull-right"  
+					 total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></uib-pagination>
+</div>
