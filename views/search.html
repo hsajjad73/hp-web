@@ -1,0 +1,45 @@
+
+<div class="container">
+	<!--search bar-->
+	<div class="row text-center">
+		<form name="sform" novalidate ng-submit="sform.search.$valid && doSearch()">
+			<div class="input-group input-group-lg col-sm-offset-1 col-sm-10">
+			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="query" required>
+			  <span id="search-addon" class="input-group-btn">
+				<button class="btn btn-default" type="button" ng-click="doSearch()" ng-disabled="!query"><i class="fa fa-search"></i></button>
+			  </span>  
+			</div>
+		</form> 
+	</div>
+	<!-- result summary -->
+	<div class="row top-buffer-sm" ng-show="results.length">
+		<h5><strong>{{totalItems}}</strong> products matching word '{{query}}'</h5>
+	</div>
+	<!-- search results -->
+
+	<div class="row">
+	  <div class="card-deck">
+		<div class="card" ng-repeat="result in results">
+			<img class="card-img-top img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg"> 
+		  	<div class="card-block">
+		  		<p class="card-title">{{result._source.name}}</p>
+		  		<p class="card-text"><small class="text-muted">({{result._source.quantity}})</small></p>
+		  	</div>	
+		  	<div class="card-block">
+		  		<p class="card-text"><small class="text-muted">From:</small><strong> £{{result._source.price}}</strong></p>
+		  	</div>
+		  	<div class="card-block">
+		  		<!--buffer-->
+		  	</div>			  	  	
+			<div class="card-footer text-center">
+			   <a href="#/findStores/{{result._source.id}}" class="btn btn-primary btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
+			</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="row text-center" ng-show="results.length">
+		 <uib-pagination items-per-page="itemsPerPage" class="pagination"  
+						 total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></uib-pagination>
+	</div>
+</div>
