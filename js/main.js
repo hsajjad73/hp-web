@@ -37,13 +37,13 @@ hpApp.controller('SearchController', function($scope, esService) {
 	/* for pagination */
 	$scope.currentPage = 1;
 	$scope.maxSize = 3;
-	$scope.itemsPerPage=15;
+	$scope.itemsPerPage=12;
 	
 	$scope.doSearch = function() {
 		esService.search({
 		  index: 'healthierprices',
 		  type: 'products',
-		  size: 15,
+		  size: 12,
 		  from: ($scope.currentPage == 1 ? 0 : (($scope.currentPage-1)*$scope.itemsPerPage)),
 		  body: {
 			query: {

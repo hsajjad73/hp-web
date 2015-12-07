@@ -12,34 +12,32 @@
 		</form> 
 	</div>
 	<!-- result summary -->
-	<div class="row top-buffer-sm" ng-show="results.length">
+	<div class="row top-buffer-sm col-xs-offset-1" ng-show="results.length">
 		<h5><strong>{{totalItems}}</strong> products matching word '{{query}}'</h5>
 	</div>
 	<!-- search results -->
+</div>
 
+<div class="container-fluid" style="background-color: #e5e5e5">
+  <div class="container col-xs-offset-1">
 	<div class="row">
 	  <div class="card-deck">
 		<div class="card" ng-repeat="result in results">
-			<img class="card-img-top img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg"> 
-		  	<div class="card-block">
+			<img class="card-img-top img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg" width="150"> 
+		  	<div class="card-block top-buffer-xs">
 		  		<p class="card-title">{{result._source.name}}</p>
-		  		<p class="card-text"><small class="text-muted">({{result._source.quantity}})</small></p>
-		  	</div>	
-		  	<div class="card-block">
-		  		<p class="card-text"><small class="text-muted">From:</small><strong> £{{result._source.price}}</strong></p>
-		  	</div>
-		  	<div class="card-block">
-		  		<!--buffer-->
-		  	</div>			  	  	
+		  		<p class="card-subtitle text-muted"><small>({{result._source.quantity}})</small></p>
+		  		<p class="card-text text-muted top-buffer-xs">From:<strong> £{{result._source.price}}</strong></p>
+		  	</div>	  	  	
 			<div class="card-footer text-center">
-			   <a href="#/findStores/{{result._source.id}}" class="btn btn-primary btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
+			   <a href="#/findStores/{{result._source.id}}" class="btn btn-secondary btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
 			</div>
 		</div>
 	  </div>
 	</div>
-
-	<div class="row text-center" ng-show="results.length">
-		 <uib-pagination items-per-page="itemsPerPage" class="pagination"  
+  </div>
+  <div class="row text-center" ng-show="results.length">
+	<uib-pagination items-per-page="itemsPerPage" class="pagination"  
 						 total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></uib-pagination>
-	</div>
+  </div>
 </div>
