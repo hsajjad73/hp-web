@@ -1,11 +1,11 @@
 <div class="container">
 	<!--full image-->
-	<div class="row top-buffer col-xs-offset-1 col-xs-10">
-		<img class="img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/detail_images/{{prodId}}_IMAGE2.jpg">
+	<div class="row">
+		<img class="img-responsive" ng-src="http://www.healthierprices.co.uk/uploads/detail_images/{{prodId}}_IMAGE2.jpg">
 	</div>
 	<!--stores table-->
-	<div class="row top-buffer">
-		<table class="table table-striped">
+	<div class="row top-buffer-sm">
+		<table class="table table-striped table-responsive">
 		  <thead>
 			<tr>
 			  <th>Store</th>
@@ -23,7 +23,7 @@
 			  <td>{{ result.size }}</td>
 			  <td>{{ result.rrp | currency:"£":2 }}</td>
 			  <td>{{ result.price | currency:"£":2 }}</td>
-			  <td><a class="btn btn-primary" href="#" role="button"><i class="fa fa-shopping-cart"></i>&nbsp;Buy</a></td>
+			  <td><a class="btn btn-primary-outline" href="#/" role="button">Go to Store&nbsp;<i class="fa fa-shopping-cart"></i></a></td>
 			</tr>
 		  </tbody>
 		</table>

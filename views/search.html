@@ -4,40 +4,42 @@
 	<div class="row text-center">
 		<form name="sform" novalidate ng-submit="sform.search.$valid && doSearch()">
 			<div class="input-group input-group-lg col-sm-offset-1 col-sm-10">
-			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="query" required>
+			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="query" required focus>
 			  <span id="search-addon" class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="doSearch()" ng-disabled="!query"><i class="fa fa-search"></i></button>
+				<button class="btn btn-primary" type="button" ng-click="doSearch()" ng-disabled="!query"><i class="fa fa-search"></i></button>
 			  </span>  
 			</div>
 		</form> 
 	</div>
 	<!-- result summary -->
-	<div class="row top-buffer-sm col-xs-offset-1" ng-show="results.length">
-		<h5><strong>{{totalItems}}</strong> products matching word '{{query}}'</h5>
+	<div class="alert alert-info top-buffer-sm" role="alert" ng-show="results.length">
+		<strong>{{totalItems}}</strong> products matching word '{{query}}'
 	</div>
-	<!-- search results -->
+	<div class="alert alert-warning top-buffer-sm" role="alert" ng-show="results.length == 0">
+		<strong>{{totalItems}}</strong> products matching word '{{query}}'
+	</div>
 </div>
 
-<div class="container-fluid" style="background-color: #e5e5e5">
-  <div class="container col-xs-offset-1">
-	<div class="row">
-	  <div class="card-deck">
-		<div class="card" ng-repeat="result in results">
-			<img class="card-img-top img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/hpproduct_images/{{result._source.id}}_IMAGE2.jpg" width="150"> 
-		  	<div class="card-block top-buffer-xs">
-		  		<p class="card-title">{{result._source.name}}</p>
-		  		<p class="card-subtitle text-muted"><small>({{result._source.quantity}})</small></p>
-		  		<p class="card-text text-muted top-buffer-xs">From:<strong> £{{result._source.price}}</strong></p>
+<div class="container-fluid content-bg">
+  <div class="container">
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="result in results">
+		<div class="card">
+			<a href="" ng-click="openLightboxModal($index)">
+				<img class="card-img img-responsive center-block" ng-src="http://www.healthierprices.co.uk/uploads/detail_images/{{result._source.id}}_IMAGE2.jpg"  width="150">
+			</a>
+		  	<div class="card-block">
+		  		<p class="card-title">{{result._source.name | uppercase}}</p>
+		  		<p class="card-subtitle text-muted"><small>({{result._source.quantity | lowercase}})</small></p>
+		  		<p class="card-text text-muted top-buffer-xs">From:<strong>{{result._source.price | currency:"£":2}}</strong></p>
 		  	</div>	  	  	
 			<div class="card-footer text-center">
-			   <a href="#/findStores/{{result._source.id}}" class="btn btn-secondary btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
+			   <a href="#/findStores/{{result._source.id}}" class="btn btn-primary-outline btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
 			</div>
 		</div>
-	  </div>
 	</div>
   </div>
   <div class="row text-center" ng-show="results.length">
 	<uib-pagination items-per-page="itemsPerPage" class="pagination"  
 						 total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></uib-pagination>
   </div>
-</div>
+</div><!--container-fluid-->

@@ -12,7 +12,8 @@
 
         <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/bootstrap-card-flex.css">
+        <link rel="stylesheet" href="css/plugins/star-rating.min.css">
+        <link rel="stylesheet" href="css/plugins/angular-bootstrap-lightbox.min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <!-- Respond.js for IE 8 or less only -->
@@ -35,13 +36,13 @@
                 <a class="navbar-brand" href="#/"><img class="img-responsive" src="img/healthierprices_logo.gif" width="300" alt="healthierprices.co.uk logo"></a>
                 <ul class="nav navbar-nav pull-right">
                   <li class="nav-item active">
-                    <a class="nav-link" href="#"><span class="icon fa fa-home"></span> Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#/"><span class="icon fa fa-home"></span> Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="icon fa fa-envelope"></span> Contact</a>
+                    <a class="nav-link" href="#/"><span class="icon fa fa-envelope"></span> Contact</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="icon fa fa-group"></span> Team</a>
+                    <a class="nav-link" href="#/"><span class="icon fa fa-group"></span> Team</a>
                   </li>
                 </ul>
               </div>
@@ -55,22 +56,23 @@
 
         <footer role="contentinfo">
             <nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
-                <a class="navbar-brand" href="#"><i class="fa fa-twitter text-muted"></i></a>
-                <a class="navbar-brand" href="#"><i class="fa fa-google-plus text-muted"></i></a>
-                <a class="navbar-brand" href="#"><i class="fa fa-linkedin text-muted"></i></a>
-                <a class="navbar-brand pull-right" href="#/"><img class="img-responsive img-thumbnail" src="img/healthierprices_logo.gif" width="200" alt="healthierprices.co.uk logo"></a>
+                <!--<a class="navbar-brand" href="#/"><i class="fa fa-twitter text-muted"></i></a>
+                <a class="navbar-brand" href="#/"><i class="fa fa-google-plus text-muted"></i></a>
+                <a class="navbar-brand" href="#/"><i class="fa fa-linkedin text-muted"></i></a>-->
+                <a class="navbar-brand" href="#/"><img class="img-responsive img-thumbnail" src="img/healthierprices_logo.gif" width="150" alt="healthierprices.co.uk logo"></a>
             </nav>
         </footer>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+        <script src="js/vendor/tether.min.js"></script><!--must load before bootstrap js-->
         <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script> 
-        <script src="js/vendor/tether.min.js"></script>
         <script src="js/vendor/ui-bootstrap-tpls-0.14.3.min.js"></script>
         <script src="js/vendor/elasticsearch.angular.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+        <script src="js/vendor/angular-bootstrap-lightbox.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 

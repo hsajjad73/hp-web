@@ -1,5 +1,5 @@
 
-var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap']);
+var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap', 'bootstrapLightbox']);
 
 /*Route Config*/
 hpApp.config(['$routeProvider',
@@ -18,6 +18,13 @@ hpApp.config(['$routeProvider',
 	  });
   }]);
 
+hpApp.config(function (LightboxProvider) {
+  LightboxProvider.templateUrl = 'js/vendor/lightbox.html';
+  LightboxProvider.getImageUrl = function (image) {
+    return 'http://www.healthierprices.co.uk/uploads/detail_images/' + image;
+  };
+});
+
 /*Services*/
 hpApp.service('esService', function (esFactory) {
   return esFactory({
@@ -26,13 +33,21 @@ hpApp.service('esService', function (esFactory) {
   });
 });
 
+/*Directives*/
+hpApp.directive('focus', function() {
+	return {
+		link: function(scope, element, attr) {
+			element[0].focus();
+		}
+	}
+});
 
 /*Controllers*/
 
 /*********************/
 /**Search Controller**/
 /*********************/
-hpApp.controller('SearchController', function($scope, esService) {
+hpApp.controller('SearchController', function($scope, esService, $log, Lightbox) {
 	
 	/* for pagination */
 	$scope.currentPage = 1;
@@ -55,6 +70,11 @@ hpApp.controller('SearchController', function($scope, esService) {
 		}).then(function (response) {
 			$scope.totalItems = response.hits.total;
 			$scope.results = response.hits.hits;
+			$scope.images = [];
+			angular.forEach($scope.results, function(value, key) {
+			  $scope.images.push(value._source.id + '_IMAGE2.jpg');
+			});
+			//console.log($scope.images);
 		}, function (err) {
 			console.trace(err.message);
 		});
@@ -62,13 +82,19 @@ hpApp.controller('SearchController', function($scope, esService) {
 
 	$scope.pageChanged = function() {
 		$scope.doSearch();
-	};
-  
+	}
+
+	$scope.openLightboxModal = function (index) {
+    	Lightbox.openModal($scope.images, index);
+  	};
+
 	$scope.doFuzzy = function() {
 		esService.search({
-			  index: 'healthierprices',
-			  type: 'products',
-			  body: {
+			index: 'healthierprices',
+			type: 'products',
+			size: 12,
+		  	from: ($scope.currentPage == 1 ? 0 : (($scope.currentPage-1)*$scope.itemsPerPage)),
+			body: {
 			    query: {
 			      multi_match: {
 			        fields : ['descr', 'short'],
@@ -77,8 +103,9 @@ hpApp.controller('SearchController', function($scope, esService) {
 			      }
 			    }
 			  }
-			}).then(function (resp) {
-				$scope.results = resp;
+			}).then(function (response) {
+				$scope.totalItems = response.hits.total;
+				$scope.results = response.hits.hits;
 			}, function (err) {
 			    console.trace(err.message);
 			});
@@ -118,7 +145,7 @@ hpApp.controller('StoreController', function($scope, $routeParams, $http) {
 	
 	$http({
 		method: 'GET',
-		url: 'http://localhost:8080/healthy/products/'+ $routeParams.prodId
+		url: 'http://localhost/healthy/products/'+ $routeParams.prodId
 	}).then(function successCallback(response) {
 		$scope.results = response.data;
 	  }, function errorCallback(response) {

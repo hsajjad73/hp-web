@@ -95,61 +95,33 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-.card-img-top {
-  border-radius: 0.25rem 0.25rem 0 0; 
-  /*extension*/
-  margin-top: .5rem;}
-
-.card-deck {
-  display: flex;
-  flex-flow: row wrap;
-  margin-right: -.625rem;
-  margin-left: -.625rem; 
-  }
-
-.card-deck .card {
-    flex: 1 0 0;
-    margin-right: .4rem;
-    margin-left: .4rem; 
-    /*extension*/
-    min-width: 15rem;
-    max-width: 15rem;}
-
 .card {
   position: relative;
-  margin-bottom: .4rem;
-  margin-top: .4rem;
-  border: 0.0625rem solid #e5e5e5;
-  border-radius: .5rem; }
+  width: 14rem;
+  margin-top: 1rem;
+  border: .0625rem solid #e5e5e5;
+  border-radius: .5rem;
+}
 
 .card-block {
-  margin: 0.25rem;
-  padding: 0.25rem; 
+  margin:.5rem;
+  padding: .5rem;
   border: 0.0625rem solid #e5e5e5;
   border-radius: .25rem;
-  }
+}
 
 .card-title {
   margin-top: 0;
-  margin-bottom: 0.25rem; 
+  margin-bottom: .75rem;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;}
+  text-overflow: ellipsis;
+}
 
-.card-footer {
-  padding: 1rem 0.25rem;
-  border-top: 0.0625rem solid #fff; 
-  align-self: flex-end;}
-  .card-footer:last-child {
-    border-radius: 0 0 0.5rem 0.5rem;}
-
-.card-header {
-  padding: 1rem 0.25rem;
-  background-color: #f5f5f5;
-  border-bottom: 0.0625rem solid #e5e5e5; }
-  .card-header:first-child {
-    border-radius: 0.1875rem 0.1875rem 0 0; }
+.card-img {
+  border-radius: .5rem;
+  margin-top: .5rem;
+}
 
 .navbar-fixed-top {
   top: 0; 
@@ -157,12 +129,15 @@ textarea {
 
 .navbar-fixed-bottom {
   bottom: 0; 
-  border-top: 0.0625rem solid #e5e5e5;}
-
+  border-top: 0.0625rem solid #e5e5e5;
+}
 .navbar-nav .nav-item + .nav-item {
     margin-left: 1.5rem;
 }
 
+.content-bg {
+  background-color: #e5e5e5;
+}
 .top-buffer-lg { margin-top: 4rem; 
 }
 .top-buffer-sm { margin-top: 2rem; 
