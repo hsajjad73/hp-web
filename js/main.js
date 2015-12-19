@@ -1,5 +1,13 @@
 
-var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap', 'bootstrapLightbox']);
+var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap', 'bootstrapLightbox'])
+	.constant('HP_CONSTANTS', { 
+		ELASTIC_URL: 'http://localhost:9200', 
+		MULE_URL: 'http://localhost/healthy/products/',
+		IMGS_BASE_URL: 'http://www.healthierprices.co.uk/uploads/detail_images/'
+	})
+	.run(function ($rootScope, HP_CONSTANTS) { // make in scope for all controllers
+        $rootScope.HP_CONSTANTS = HP_CONSTANTS;
+    });
 
 /*Route Config*/
 hpApp.config(['$routeProvider',
@@ -18,17 +26,18 @@ hpApp.config(['$routeProvider',
 	  });
   }]);
 
-hpApp.config(function (LightboxProvider) {
-  LightboxProvider.templateUrl = 'js/vendor/lightbox.html';
+/*Lightbox Image Modal plugin conf*/
+hpApp.config(function (LightboxProvider, HP_CONSTANTS) {
+  LightboxProvider.templateUrl = 'js/vendor/lightbox.tpl';
   LightboxProvider.getImageUrl = function (image) {
-    return 'http://www.healthierprices.co.uk/uploads/detail_images/' + image;
+    return HP_CONSTANTS.IMGS_BASE_URL + image;
   };
 });
 
 /*Services*/
-hpApp.service('esService', function (esFactory) {
+hpApp.service('esService', function (esFactory, HP_CONSTANTS) {
   return esFactory({
-    host: 'http://localhost:9200',
+    host: HP_CONSTANTS.ELASTIC_URL,
     log: 'trace'
   });
 });
@@ -74,7 +83,6 @@ hpApp.controller('SearchController', function($scope, esService, $log, Lightbox)
 			angular.forEach($scope.results, function(value, key) {
 			  $scope.images.push(value._source.id + '_IMAGE2.jpg');
 			});
-			//console.log($scope.images);
 		}, function (err) {
 			console.trace(err.message);
 		});
@@ -145,7 +153,7 @@ hpApp.controller('StoreController', function($scope, $routeParams, $http) {
 	
 	$http({
 		method: 'GET',
-		url: 'http://localhost/healthy/products/'+ $routeParams.prodId
+		url: HP_CONSTANTS.MULE_URL + $routeParams.prodId
 	}).then(function successCallback(response) {
 		$scope.results = response.data;
 	  }, function errorCallback(response) {

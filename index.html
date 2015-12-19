@@ -10,7 +10,7 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
 
-        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/plugins/star-rating.min.css">
         <link rel="stylesheet" href="css/plugins/angular-bootstrap-lightbox.min.css">
@@ -33,8 +33,8 @@
                 &#9776;
               </button>
               <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar">
-                <a class="navbar-brand" href="#/"><img class="img-responsive" src="img/healthierprices_logo.gif" width="300" alt="healthierprices.co.uk logo"></a>
-                <ul class="nav navbar-nav pull-right">
+                <a class="navbar-brand" href="#/"><img class="img-fluid" src="img/healthierprices_logo.gif" width="300" alt="healthierprices.co.uk logo"></a>
+                <ul class="nav navbar-nav pull-xs-right">
                   <li class="nav-item active">
                     <a class="nav-link" href="#/"><span class="icon fa fa-home"></span> Home <span class="sr-only">(current)</span></a>
                   </li>
@@ -55,18 +55,23 @@
         </main>
 
         <footer role="contentinfo">
+          <div class="container">
             <nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
                 <!--<a class="navbar-brand" href="#/"><i class="fa fa-twitter text-muted"></i></a>
                 <a class="navbar-brand" href="#/"><i class="fa fa-google-plus text-muted"></i></a>
-                <a class="navbar-brand" href="#/"><i class="fa fa-linkedin text-muted"></i></a>-->
-                <a class="navbar-brand" href="#/"><img class="img-responsive img-thumbnail" src="img/healthierprices_logo.gif" width="150" alt="healthierprices.co.uk logo"></a>
+                <a class="navbar-brand" href="#/"><i class="fa fa-linkedin text-muted"></i></a>
+                <p class="navbar-brand">&copy; 2015 healthierprices.co.uk</p>-->
+                <a class="navbar-brand pull-xs-right" href="#/"> 
+                	<img class="img-thumbnail" ng-src="img/healthierprices_logo.gif" width="150" alt="healthierprices.co.uk logo">
+                </a>
             </nav>
+          </div>
         </footer>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.4.min.js"><\/script>')</script>
         <script src="js/vendor/tether.min.js"></script><!--must load before bootstrap js-->
-        <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+		<script src="js/vendor/bootstrap.min.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script> 
