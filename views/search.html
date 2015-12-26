@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container content">
 	<!--search bar-->
 	<div class="row text-xs-center">
 		<form name="sform" novalidate ng-submit="sform.search.$valid && doSearch()">
@@ -11,35 +11,65 @@
 			</div>
 		</form> 
 	</div>
-	<!-- result summary -->
-	<div class="alert alert-info top-buffer-sm" role="alert" ng-show="results.length">
-		<strong>{{totalItems}}</strong> products matching word '{{query}}'
-	</div>
-	<div class="alert alert-warning top-buffer-sm" role="alert" ng-show="results.length == 0">
-		<strong>{{totalItems}}</strong> products matching word '{{query}}'
-	</div>
-</div>
 
-<div class="container-fluid content-bg">
-  <div class="container">
-	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="result in results">
-		<div class="card">
-			<a href="" ng-click="openLightboxModal($index)">
-				<img class="card-img img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{images[$index]}}"  width="180">
-			</a>
-		  	<div class="card-block">
-		  		<p class="card-title">{{result._source.name | uppercase}}</p>
-		  		<p class="card-subtitle text-muted"><small>({{result._source.quantity | lowercase}})</small></p>
-		  		<p class="card-text text-muted">From:<strong>{{result._source.price | currency:"£":2}}</strong></p>
-		  	</div>	  	  	
-			<div class="card-footer text-xs-center">
-			   <a href="#/findStores/{{result._source.id}}" class="btn btn-primary-outline btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
-			</div>
-		</div>
+	<div class="row m-l-1 m-t-2">
+		<p class="text-primary"  ng-show="results.length"><i class="fa fa-thumbs-up"></i> There are <strong>{{pagination.totalItems}}</strong> products matching word '{{query}}'</p>
+		<p class="text-danger"  ng-show="results.length == 0"><i class="fa fa-exclamation-triangle"></i> Sorry <strong>{{pagination.totalItems}}</strong> products available for '{{query}}'</p>
 	</div>
-  </div>
-  <div class="row text-xs-center" ng-show="results.length">
-	<uib-pagination items-per-page="itemsPerPage" class="pagination" template-url="js/vendor/pagination.tpl"
-						 total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></uib-pagination>
-  </div>
-</div><!--container-fluid-->
+
+	<div class="row">
+		<uib-tabset>
+		<uib-tab heading="Search">
+			<div class="container">
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="result in results">
+					<div class="card-cust m-t-1">
+						<div class="card-header-cust">
+							<a href ng-click="openLightboxModal($index)">
+								<img class="card-img-cust img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{images[$index]}}"  width="180" >
+							</a>
+						</div>
+					  	<div class="card-block-cust">
+					  		<p class="card-title-cust" uib-tooltip="{{result._source.name | uppercase}}">{{result._source.name | uppercase}}</p>
+					  		<p class="card-subtitle text-muted">({{result._source.quantity | lowercase}})</p>
+					  		<p class="card-text text-muted">From: <span class="text-primary"> {{result._source.price | currency:"£":2}}</span></p>
+					  	</div>	  	  	
+						<div class="card-footer text-xs-center">
+						   <a href="#/findStores/{{result._source.id}}" class="btn btn-primary-outline btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="row text-xs-center" ng-show="results.length">
+					<uib-pagination items-per-page="pagination.itemsPerPage" class="pagination" template-url="js/vendor/templates/pagination.tpl"
+										 total-items="pagination.totalItems" ng-model="pagination.currentPage" max-size="pagination.maxSize" ng-change="pageChanged()"></uib-pagination>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab heading="Stores" disable="true">
+			<div class="container">
+				<p class="text-danger m-l-1 m-t-1"  ng-show="results.length == 0"><i class="fa fa-exclamation-triangle"></i> Sorry we can't find any pharmacies with this product. Try another time or contact us <a href="#/contact">here</a>. Thanks!</p>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" ng-repeat="result in results">
+					<div ng-class="$index == 0 ? 'card card-primary-outline' : 'card card-warning-outline'">
+					  <img class="card-img-top img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{result.prod_id}}_IMAGE2.jpg" alt="{{result.name | uppercase}}" width="300">
+					  <div class="card-block">
+					    <p class="card-title">{{result.name | uppercase}}</p>
+					    <p class="card-text text-muted">long description...</p>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Quantity: {{result.size }}</li>
+					    <li class="list-group-item">Retail Price: {{result.rrp | currency:"£":2 }}</li>
+					    <li class="list-group-item">Price: {{result.price|currency:"£":2}} (Save: {{result.rrp - result.price|currency:"£":2}})</li>
+					  </ul>
+					  <div class="card-footer text-xs-center">
+						  <div class="card-block">
+						    <h5 class="card-title p-b-1">{{ result.pharma_id }}</h5>
+						    <a ng-class="$index == 0 ? 'btn btn-primary-outline' : 'btn btn-warning-outline'" href="#/" role="button">Go to Store&nbsp;<i class="fa fa-shopping-cart"></i></a>
+						  </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</uib-tab>
+		</uib-tabset>
+	</div>
+</div><!-- container -->

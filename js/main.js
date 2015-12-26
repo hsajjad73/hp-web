@@ -2,8 +2,8 @@
 var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap', 'bootstrapLightbox'])
 	.constant('HP_CONSTANTS', { 
 		ELASTIC_URL: 'http://localhost:9200', 
-		MULE_URL: 'http://localhost/healthy/products/',
-		IMGS_BASE_URL: 'http://www.healthierprices.co.uk/uploads/detail_images/'
+		MULE_URL: 'http://localhost:8080/healthy/products/',
+		IMGS_BASE_URL: 'http://www.healthierprices.co.uk/uploads/awsimage320/'
 	})
 	.run(function ($rootScope, HP_CONSTANTS) { // make in scope for all controllers
         $rootScope.HP_CONSTANTS = HP_CONSTANTS;
@@ -26,13 +26,25 @@ hpApp.config(['$routeProvider',
 	  });
   }]);
 
-/*Lightbox Image Modal plugin conf*/
+/*Lightbox Image Modal plugin conf make compatible with Bootstrap4 CSS*/
 hpApp.config(function (LightboxProvider, HP_CONSTANTS) {
-  LightboxProvider.templateUrl = 'js/vendor/lightbox.tpl';
+  LightboxProvider.templateUrl = 'js/vendor/templates/lightbox.tpl';
   LightboxProvider.getImageUrl = function (image) {
     return HP_CONSTANTS.IMGS_BASE_URL + image;
   };
 });
+
+/*Override templateURL for Angular UI Tab to make compatible with Bootstrap4 CSS*/
+hpApp.config(['$provide', Decorate]);
+function Decorate($provide) {
+$provide.decorator('uibTabDirective', function($delegate) {
+  var directive = $delegate[0];
+
+  directive.templateUrl = "js/vendor/templates/tab.tpl";
+
+  return $delegate;
+ });
+}
 
 /*Services*/
 hpApp.service('esService', function (esFactory, HP_CONSTANTS) {
@@ -59,16 +71,18 @@ hpApp.directive('focus', function() {
 hpApp.controller('SearchController', function($scope, esService, $log, Lightbox) {
 	
 	/* for pagination */
-	$scope.currentPage = 1;
-	$scope.maxSize = 3;
-	$scope.itemsPerPage=12;
+	$scope.pagination = { 
+		currentPage: 1,
+		maxSize: 3,
+		itemsPerPage: 12
+	}
 	
 	$scope.doSearch = function() {
 		esService.search({
 		  index: 'healthierprices',
 		  type: 'products',
 		  size: 12,
-		  from: ($scope.currentPage == 1 ? 0 : (($scope.currentPage-1)*$scope.itemsPerPage)),
+		  from: ($scope.pagination.currentPage == 1 ? 0 : (($scope.pagination.currentPage-1)*$scope.pagination.itemsPerPage)),
 		  body: {
 			query: {
 			  match: {
@@ -77,7 +91,7 @@ hpApp.controller('SearchController', function($scope, esService, $log, Lightbox)
 			}
 		  }
 		}).then(function (response) {
-			$scope.totalItems = response.hits.total;
+			$scope.pagination.totalItems = response.hits.total;
 			$scope.results = response.hits.hits;
 			$scope.images = [];
 			angular.forEach($scope.results, function(value, key) {
@@ -147,7 +161,7 @@ hpApp.controller('SearchController', function($scope, esService, $log, Lightbox)
 /*********************/
 /**Store Controller***/
 /*********************/
-hpApp.controller('StoreController', function($scope, $routeParams, $http) {
+hpApp.controller('StoreController', function($scope, $routeParams, $http, HP_CONSTANTS) {
 	
 	$scope.prodId = $routeParams.prodId;
 	
