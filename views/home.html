@@ -12,7 +12,7 @@
 		</form> 
 	</div>
 
-	<div class="row m-t-1 p-l-1" ng-show="searchResult.data.length">
+	<div class="row m-t-1 m-l-0 m-r-0" ng-show="searchResult.data.length >= 0">
 		<uib-tabset>
 		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
 			<div ng-if="$index == 0" class="container">
