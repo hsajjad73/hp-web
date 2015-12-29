@@ -1,4 +1,4 @@
-
+		
 var hpApp = angular.module('hpApp', ['ngRoute', 'elasticsearch', 'ngAnimate', 'ui.bootstrap', 'bootstrapLightbox'])
 	.constant('HP_CONSTANTS', { 
 		ELASTIC_URL: 'http://localhost:9200', 
@@ -14,13 +14,9 @@ hpApp.config(['$routeProvider',
   function($routeProvider) {
 	$routeProvider.
 	  when('/', {
-		templateUrl: 'views/search.html',
+		templateUrl: 'views/home.html',
 		controller: 'SearchController'
 	  }).	  
-	  when('/findStores/:prodId', {
-		templateUrl: 'views/stores.html',
-		controller: 'StoreController'
-	  }).
 	  otherwise({
 		redirectTo: '/'
 	  });
@@ -68,16 +64,33 @@ hpApp.directive('focus', function() {
 /*********************/
 /**Search Controller**/
 /*********************/
-hpApp.controller('SearchController', function($scope, esService, $log, Lightbox) {
+hpApp.controller('SearchController', function($scope,  
+											  $http, 
+											  $log, 
+											  esService,
+											  Lightbox, 
+											  HP_CONSTANTS) {
 	
+	$scope.tabs = [
+		{ title:'Search', active: true, disabled: false },
+		{ title:'Stores', active: false, disabled: true }
+	];
+
 	/* for pagination */
 	$scope.pagination = { 
 		currentPage: 1,
 		maxSize: 3,
 		itemsPerPage: 12
-	}
+	};
 	
+	$scope.searchResult = {};
+
+	$scope.storeResult = {};
+
 	$scope.doSearch = function() {
+
+		$scope.tabs[0].active = true;
+
 		esService.search({
 		  index: 'healthierprices',
 		  type: 'products',
@@ -92,10 +105,10 @@ hpApp.controller('SearchController', function($scope, esService, $log, Lightbox)
 		  }
 		}).then(function (response) {
 			$scope.pagination.totalItems = response.hits.total;
-			$scope.results = response.hits.hits;
-			$scope.images = [];
-			angular.forEach($scope.results, function(value, key) {
-			  $scope.images.push(value._source.id + '_IMAGE2.jpg');
+			$scope.searchResult.data = response.hits.hits;
+			$scope.searchResult.images = [];
+			angular.forEach($scope.searchResult.data, function(value, key) {
+			  $scope.searchResult.images.push(value._source.id + '_IMAGE2.jpg');
 			});
 		}, function (err) {
 			console.trace(err.message);
@@ -107,8 +120,23 @@ hpApp.controller('SearchController', function($scope, esService, $log, Lightbox)
 	}
 
 	$scope.openLightboxModal = function (index) {
-    	Lightbox.openModal($scope.images, index);
+    	Lightbox.openModal($scope.searchResult.images, index);
   	};
+
+	$scope.findStores = function(prodId) {
+		
+		$scope.tabs[1].disabled = false;
+		$scope.tabs[1].active = true;
+		
+		$http({
+			method: 'GET',
+			url: HP_CONSTANTS.MULE_URL + prodId
+		}).then(function successCallback(response) {
+			$scope.storeResult.data = response.data;
+		  }, function errorCallback(response) {
+			console.trace(response.message);
+		  });
+	};
 
 	$scope.doFuzzy = function() {
 		esService.search({
@@ -156,21 +184,4 @@ hpApp.controller('SearchController', function($scope, esService, $log, Lightbox)
 			    console.trace(err.message);
 			});
 	}
-});
-
-/*********************/
-/**Store Controller***/
-/*********************/
-hpApp.controller('StoreController', function($scope, $routeParams, $http, HP_CONSTANTS) {
-	
-	$scope.prodId = $routeParams.prodId;
-	
-	$http({
-		method: 'GET',
-		url: HP_CONSTANTS.MULE_URL + $routeParams.prodId
-	}).then(function successCallback(response) {
-		$scope.results = response.data;
-	  }, function errorCallback(response) {
-		console.trace(response.message);
-	  });
 });
