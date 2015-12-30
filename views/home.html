@@ -31,7 +31,10 @@
 					  	<div class="card-block-cust">
 					  		<p class="card-title-cust" uib-tooltip="{{result._source.name | uppercase}}">{{result._source.name | uppercase}}</p>
 					  		<p class="card-subtitle text-muted">({{result._source.quantity | lowercase}})</p>
-					  		<p class="card-text text-muted">From: <span class="text-primary"> {{result._source.price | currency:"£":2}}</span></p>
+					  		<p class="card-text text-muted">From: <span class="text-primary"> {{result._source.price | currency:"£":2}}</span>
+					  			<uib-rating class="pull-xs-right" ng-model="rate" max="5" on-hover="hoveringOver($index, result._source.id, value)" on-leave="ratings[$index].overStar = null" aria-labelledby="default-rating"></uib-rating>
+    							<span class="label pull-xs-right" ng-class="{'label-warning': ratings[$index].percent<30, 'label-info': ratings[$index].percent>=30 && ratings[$index].percent<70, 'label-success': ratings[$index].percent>=70}" ng-show="ratings[$index].overStar && !isReadonly">{{ratings[$index].percent}}%</span>
+    						</p>
 					  	</div>	  	  	
 						<div class="card-footer text-xs-center">
 						   <a href ng-click="findStores(result._source.id)" class="btn btn-primary-outline btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>

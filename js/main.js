@@ -30,13 +30,21 @@ hpApp.config(function (LightboxProvider, HP_CONSTANTS) {
   };
 });
 
-/*Override templateURL for Angular UI Tab to make compatible with Bootstrap4 CSS*/
+/*Override templateURL for Angular UI Components to make compatible with Bootstrap4 CSS*/
 hpApp.config(['$provide', Decorate]);
 function Decorate($provide) {
 $provide.decorator('uibTabDirective', function($delegate) {
   var directive = $delegate[0];
 
   directive.templateUrl = "js/vendor/templates/tab.tpl";
+
+  return $delegate;
+ });
+
+$provide.decorator('uibRatingDirective', function($delegate) {
+  var directive = $delegate[0];
+
+  directive.templateUrl = "js/vendor/templates/rating.tpl";
 
   return $delegate;
  });
@@ -86,6 +94,8 @@ hpApp.controller('SearchController', function($scope,
 	$scope.searchResult = {};
 
 	$scope.storeResult = {};
+
+	$scope.ratings = [];
 
 	$scope.doSearch = function() {
 
@@ -137,6 +147,15 @@ hpApp.controller('SearchController', function($scope,
 			console.trace(response.message);
 		  });
 	};
+
+  /*star rating */
+  $scope.hoveringOver = function(idx, prodId, value) {
+    $scope.ratings[idx] = {};
+    $scope.ratings[idx].prodId = prodId
+    $scope.ratings[idx].overStar = value;
+    $scope.ratings[idx].percent = 100 * (value / 5); // 5 is max
+    //$log.debug($scope.ratings[idx]);
+  };
 
 	$scope.doFuzzy = function() {
 		esService.search({
