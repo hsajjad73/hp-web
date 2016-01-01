@@ -22,19 +22,23 @@
 				</div>			
 				<div class="row m-b-2">
 				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="result in searchResult.data">
-					<div class="card-cust m-t-1">
-						<div class="card-header-cust">
+					<div class="hp-card m-t-1">
+						<div class="hp-card-header">
 							<a href ng-click="openLightboxModal($index)">
-								<img class="card-img-cust img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{searchResult.images[$index]}}"  width="180" >
+								<img class="hp-card-img img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{searchResult.images[$index]}}" err-src="http://placehold.it/180x180" width="180" >
 							</a>
 						</div>
-					  	<div class="card-block-cust">
-					  		<p class="card-title-cust" uib-tooltip="{{result._source.name | uppercase}}">{{result._source.name | uppercase}}</p>
-					  		<p class="card-subtitle text-muted">({{result._source.quantity | lowercase}})</p>
-					  		<p class="card-text text-muted">From: <span class="text-primary"> {{result._source.price | currency:"£":2}}</span>
-					  			<uib-rating class="pull-xs-right" ng-model="rate" max="5" on-hover="hoveringOver($index, result._source.id, value)" on-leave="ratings[$index].overStar = null" aria-labelledby="default-rating"></uib-rating>
-    							<span class="label pull-xs-right" ng-class="{'label-warning': ratings[$index].percent<30, 'label-info': ratings[$index].percent>=30 && ratings[$index].percent<70, 'label-success': ratings[$index].percent>=70}" ng-show="ratings[$index].overStar && !isReadonly">{{ratings[$index].percent}}%</span>
-    						</p>
+					  	<div class="hp-card-block">
+					  		<p class="hp-card-title" uib-tooltip="{{result._source.name | uppercase}}">{{result._source.name | uppercase}}</p>
+					  		<a class="card-subtitle text-muted" tabindex="0" popover-title="Description" uib-popover="{{result._source.descr}}" popover-trigger="focus">Additional Info</a>
+					  		<div class="hp-card-text text-muted">
+					  			From: <span class="text-primary"> {{result._source.price | currency:"£":2}}</span>
+					  			&nbsp; (Save: {{result._source.rrp - result._source.price | currency:"£":2}})
+					  		</div>
+					  		<div class="hp-card-text">
+					  			<uib-rating ng-model="rate" max="5" on-hover="hoveringOver($index, result._source.id, value)" on-leave="ratings[$index].overStar = null" aria-labelledby="default-rating"></uib-rating>
+    							<span class="label" ng-class="{'label-warning': ratings[$index].percent<30, 'label-info': ratings[$index].percent>=30 && ratings[$index].percent<70, 'label-success': ratings[$index].percent>=70}" ng-show="ratings[$index].overStar && !isReadonly">{{ratings[$index].percent}}%</span>
+    						</div>
 					  	</div>	  	  	
 						<div class="card-footer text-xs-center">
 						   <a href ng-click="findStores(result._source.id)" class="btn btn-primary-outline btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>
@@ -48,30 +52,29 @@
 										 total-items="pagination.totalItems" ng-model="pagination.currentPage" max-size="pagination.maxSize" ng-change="pageChanged()"></uib-pagination>
 				</div>
 			</div>
-
+			<!--///Store Tab -->
 			<div ng-if="$index == 1" class="container">
 				<div class="row m-t-1">
 					<p class="text-danger"  ng-show="storeResult.data.length == 0"><i class="fa fa-exclamation-triangle"></i> Sorry we can't find any pharmacies with this product. Try another time or contact us <a href="#/contact">here</a>. Thanks!</p>
 				</div>
 				<div class="row m-t-1">
-					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" ng-repeat="result in storeResult.data">
-						<div ng-class="$index == 0 ? 'card card-primary-outline' : 'card card-warning-outline'">
-					  	<img class="card-img-top img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{result.prod_id}}_IMAGE2.jpg" alt="{{result.name | uppercase}}" width="300">
-					  	<div class="card-block">
-					    	<p class="card-title">{{result.name | uppercase}}</p>
-					    	<p class="card-text text-muted">long description...</p>
-					  	</div>
-					  	<ul class="list-group list-group-flush">
-					    	<li class="list-group-item">Quantity: {{result.size }}</li>
-					    	<li class="list-group-item">Retail Price: {{result.rrp | currency:"£":2 }}</li>
-					    	<li class="list-group-item">Price: {{result.price|currency:"£":2}} (Save: {{result.rrp - result.price|currency:"£":2}})</li>
-					  	</ul>
-					  	<div class="card-footer text-xs-center">
-						  <div class="card-block">
-						    <h5 class="card-title p-b-1">{{ result.pharma_id }}</h5>
-						    <a ng-class="$index == 0 ? 'btn btn-primary-outline' : 'btn btn-warning-outline'" href="#/" role="button">Go to Store&nbsp;<i class="fa fa-shopping-cart"></i></a>
-						  </div>
-					  	</div>
+					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="result in storeResult.data">
+						<div class="hp-card" ng-class="$index == 0 ? 'card-primary-outline' : 'card-secondary-outline'">
+							<div class="card-header">
+								<img class="hp-img-thumbnail center-block" ng-src="img/{{result.pharmacy.id}}.png" err-src="http://placehold.it/250x65" alt="{{result.pharmacy.name}}">
+  							</div>
+					  		<img class="img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{result.prod_id}}_IMAGE2.jpg" alt="{{result.name | uppercase}}" err-src="http://placehold.it/200x200" width="200">
+						  	<div class="hp-card-block">
+						    	<p class="hp-card-title" uib-tooltip="{{result.name | uppercase}}">{{result.name | uppercase}}&nbsp;</p>
+						  	</div>
+						  	<ul class="list-group list-group-flush">
+						    	<li class="hp-list-group-item">Price: {{result.price|currency:"£":2}} (Save: {{result.rrp - result.price|currency:"£":2}})</li>
+						    	<li class="hp-list-group-item">Retail Price: {{result.rrp | currency:"£":2 }}</li>
+						    	<li class="hp-list-group-item">Quantity: {{result.size }}</li>
+						  	</ul>
+						  	<div class="card-footer text-xs-center">
+							    <a class="btn btn-primary-outline btn-sm" ng-href="{{result.ex_link}}" role="button">Go to Store&nbsp;<i class="fa fa-shopping-cart"></i></a>
+						  	</div>
 						</div>
 					</div>
 				</div>

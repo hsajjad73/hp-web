@@ -48,6 +48,14 @@ $provide.decorator('uibRatingDirective', function($delegate) {
 
   return $delegate;
  });
+
+$provide.decorator('uibPopoverPopupDirective', function($delegate) {
+  var directive = $delegate[0];
+
+  directive.templateUrl = "js/vendor/templates/popover.tpl";
+
+  return $delegate;
+ });
 }
 
 /*Services*/
@@ -66,6 +74,19 @@ hpApp.directive('focus', function() {
 		}
 	}
 });
+
+hpApp.directive('errSrc', function() {
+      return {
+        link: function(scope, element, attrs) {
+          element.bind('error', function() {
+            if (attrs.src != attrs.errSrc) {
+              attrs.$set('src', attrs.errSrc);
+            }
+          });
+        }
+      }
+    });
+
 
 /*Controllers*/
 
