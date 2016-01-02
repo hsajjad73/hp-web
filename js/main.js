@@ -118,6 +118,11 @@ hpApp.controller('SearchController', function($scope,
 
 	$scope.ratings = [];
 
+	$scope.newSearch = function() {
+		$scope.pagination.currentPage = 1;//reset
+		$scope.doSearch();
+	}
+
 	$scope.doSearch = function() {
 
 		$scope.tabs[0].active = true;
@@ -130,7 +135,7 @@ hpApp.controller('SearchController', function($scope,
 		  body: {
 			query: {
 			  match: {
-				_all: $scope.query
+				_all: $scope.search.query
 			  }
 			}
 		  }
@@ -188,7 +193,7 @@ hpApp.controller('SearchController', function($scope,
 			    query: {
 			      multi_match: {
 			        fields : ['descr', 'short'],
-			        query : $scope.query,
+			        query : $scope.search.query,
 			        fuzziness : 'AUTO'
 			      }
 			    }
