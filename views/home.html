@@ -4,7 +4,7 @@
 	<div class="row text-xs-center">
 		<form name="sform" novalidate ng-submit="sform.search.$valid && newSearch()">
 			<div class="input-group input-group-lg col-sm-offset-1 col-sm-10">
-			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="search.query" required focus>
+			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="search.query" uib-typeahead="hint for hint in doFuzzy($viewValue)" typeahead-editable="false" typeahead-popup-template-url="js/vendor/templates/typeahead-popup.tpl" typeahead-template-url="js/vendor/templates/typeahead-match.tpl" required focus>
 			  <span id="search-addon" class="input-group-btn">
 				<button class="btn btn-primary" type="button" ng-click="newSearch()" ng-disabled="!search.query"><i class="fa fa-search"></i></button>
 			  </span>  
@@ -17,7 +17,7 @@
 		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
 			<div ng-if="$index == 0" class="container">
 				<div class="row m-t-1">
-					<p class="text-primary"  ng-show="searchResult.data.length"><i class="fa fa-thumbs-up"></i> There are <strong>{{pagination.totalItems}}</strong> products matching word '{{query}}'</p>
+					<p class="text-primary"  ng-show="searchResult.data.length"><i class="fa fa-thumbs-up"></i> There are <strong>{{pagination.totalItems}}</strong> products matching word '{{search.query}}'</p>
 					<p class="text-danger"  ng-show="searchResult.data.length == 0"><i class="fa fa-exclamation-triangle"></i> Sorry <strong>{{pagination.totalItems}}</strong> products available for '{{search.query}}'</p>
 				</div>			
 				<div class="row m-b-2">

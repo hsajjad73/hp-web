@@ -120,14 +120,14 @@ hpApp.controller('SearchController', function($scope,
 
 	$scope.newSearch = function() {
 		$scope.pagination.currentPage = 1;//reset
-		$scope.doSearch();
+		return $scope.doSearch();
 	}
 
 	$scope.doSearch = function() {
 
 		$scope.tabs[0].active = true;
 
-		esService.search({
+		return esService.search({
 		  index: 'healthierprices',
 		  type: 'products',
 		  size: 12,
@@ -152,7 +152,7 @@ hpApp.controller('SearchController', function($scope,
 	}	
 
 	$scope.pageChanged = function() {
-		$scope.doSearch();
+		return $scope.doSearch();
 	}
 
 	$scope.openLightboxModal = function (index) {
@@ -164,7 +164,7 @@ hpApp.controller('SearchController', function($scope,
 		$scope.tabs[1].disabled = false;
 		$scope.tabs[1].active = true;
 		
-		$http({
+		return $http({
 			method: 'GET',
 			url: HP_CONSTANTS.MULE_URL + prodId
 		}).then(function successCallback(response) {
@@ -174,40 +174,40 @@ hpApp.controller('SearchController', function($scope,
 		  });
 	};
 
-  /*star rating */
-  $scope.hoveringOver = function(idx, prodId, value) {
-    $scope.ratings[idx] = {};
-    $scope.ratings[idx].prodId = prodId
-    $scope.ratings[idx].overStar = value;
-    $scope.ratings[idx].percent = 100 * (value / 5); // 5 is max
-    //$log.debug($scope.ratings[idx]);
-  };
+	/*star rating */
+	$scope.hoveringOver = function(idx, prodId, value) {
+		$scope.ratings[idx] = {};
+		$scope.ratings[idx].prodId = prodId
+		$scope.ratings[idx].overStar = value;
+		$scope.ratings[idx].percent = 100 * (value / 5); // 5 is max
+		//$log.debug($scope.ratings[idx]);
+	};
 
-	$scope.doFuzzy = function() {
-		esService.search({
+	$scope.doFuzzy = function(val) {
+		return esService.search({
 			index: 'healthierprices',
 			type: 'products',
-			size: 12,
-		  	from: ($scope.currentPage == 1 ? 0 : (($scope.currentPage-1)*$scope.itemsPerPage)),
+			size: 5,
 			body: {
 			    query: {
 			      multi_match: {
-			        fields : ['descr', 'short'],
-			        query : $scope.search.query,
+			        fields : ['keywords'],
+			        query : val,
 			        fuzziness : 'AUTO'
 			      }
 			    }
 			  }
 			}).then(function (response) {
-				$scope.totalItems = response.hits.total;
-				$scope.results = response.hits.hits;
+				return response.hits.hits.map(function(item){
+			        return item._source.name;
+			      });
 			}, function (err) {
 			    console.trace(err.message);
 			});
 	}
 	
 	$scope.getSuggestions = function(val) {
-			esService.suggest({
+			return esService.suggest({
 			  index: 'keywords',
 			  body: {
 				    mySuggester : {
