@@ -210,20 +210,16 @@ hpApp.controller('SearchController', function($scope,
 			return esService.suggest({
 			  index: 'keywords',
 			  body: {
-				    mySuggester : {
+				    searchSuggester : {
 				        text : val,
 				        completion : {
-				            field : 'suggest',
-							fuzzy : {
-				                'fuzziness' : 2
-				            }
+				            field : 'name_suggest'
 				        }
 				    }
 			  }
 			}).then(function(response){
-			      return response.mySuggester.map(function(item){
-			          return item.options.map(function(a){
-			        	  return a.text});
+			      return response.searchSuggester[0].options.map(function(item){
+			          return item.text;
 			      });
 				}, function (err) {
 			    console.trace(err.message);

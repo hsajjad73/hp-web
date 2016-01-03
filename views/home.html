@@ -4,7 +4,7 @@
 	<div class="row text-xs-center">
 		<form name="sform" novalidate ng-submit="sform.search.$valid && newSearch()">
 			<div class="input-group input-group-lg col-sm-offset-1 col-sm-10">
-			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="search.query" uib-typeahead="hint for hint in doFuzzy($viewValue)" typeahead-editable="false" typeahead-popup-template-url="js/vendor/templates/typeahead-popup.tpl" typeahead-template-url="js/vendor/templates/typeahead-match.tpl" required focus>
+			  <input name="search" type="text" class="form-control" placeholder="Search" aria-describedby="search-addon" ng-model="search.query" uib-typeahead="hint for hint in getSuggestions($viewValue)" typeahead-editable="false" typeahead-popup-template-url="js/vendor/templates/typeahead-popup.tpl" typeahead-template-url="js/vendor/templates/typeahead-match.tpl" required focus>
 			  <span id="search-addon" class="input-group-btn">
 				<button class="btn btn-primary" type="button" ng-click="newSearch()" ng-disabled="!search.query"><i class="fa fa-search"></i></button>
 			  </span>  
@@ -63,8 +63,8 @@
 							<div class="card-header">
 								<img class="hp-card-img-sm img-fluid center-block" ng-src="img/{{result.pharmacy.id}}.png" err-src="http://placehold.it/250x65" uib-tooltip="{{result.pharmacy.name}}">
   							</div>
-					  		<!--img class="img-thumbnail img-fluid center-block" ng-src="{{result.img_lg}}" err-src="http://placehold.it/250x250" width="90%"-->
-					  		<img class="hp-card-img img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{result.prod_id}}_IMAGE2.jpg" err-src="http://placehold.it/250x250" width="90%" >
+					  		<img class="img-thumbnail img-fluid center-block" ng-src="{{result.img_lg}}" err-src="http://placehold.it/250x250" width="90%">
+					  		<!--img class="hp-card-img img-fluid center-block" ng-src="{{HP_CONSTANTS.IMGS_BASE_URL}}{{result.prod_id}}_IMAGE2.jpg" err-src="http://placehold.it/250x250" width="90%" -->
 						  	<div class="hp-card-block">
 						    	<p class="hp-card-title" uib-tooltip="{{result.name | uppercase}}">{{result.name | uppercase}}&nbsp;</p>
 						  	</div>
