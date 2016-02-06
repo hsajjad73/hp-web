@@ -17,7 +17,7 @@
 		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
 			<div ng-if="$index == 0" class="container">
 				<div class="row m-t-1">
-					<p class="text-primary"  ng-show="searchResult.data.length"><i class="fa fa-thumbs-up"></i> There are <strong>{{pagination.totalItems}}</strong> products matching word '{{search.query}}'</p>
+					<p class="text-primary"  ng-show="searchResult.data.length"><i class="fa fa-thumbs-up"></i> There are <strong>{{pagination.totalItems}}</strong> products matching '{{search.query}}'</p>
 					<p class="text-danger"  ng-show="searchResult.data.length == 0"><i class="fa fa-exclamation-triangle"></i> Sorry <strong>{{pagination.totalItems}}</strong> products available for '{{search.query}}'</p>
 				</div>			
 				<div class="row m-b-2">
@@ -44,11 +44,12 @@
 	    							<span class="label" ng-class="{'label-warning': ratings[$index].percent<30, 'label-info': ratings[$index].percent>=30 && ratings[$index].percent<70, 'label-success': ratings[$index].percent>=70}" ng-show="ratings[$index].overStar && !isReadonly">{{ratings[$index].percent}}%</span>
 	    						</div>
 	    						</div>
-	    						<div class="col-xs-4 text-xs-center">
-	    							<span class="label label-pill label-danger">Discount</span>
-	    							<h3>
-	    								<span class="text-warning">{{ (result._source.rrp - result._source.price)/result._source.rrp * 100 | number:0}}%</span>	
-	    							</h3>		
+	    						<div class="col-xs-4">
+	    							<span class="label label-warning">Save
+	    							<h4>
+	    								{{ (result._source.rrp - result._source.price)/result._source.rrp * 100 | number:0}}%
+	    							</h4>
+	    							</span>		
 	    						</div>
 	    					</div>
 					  	</div>	  	  	
