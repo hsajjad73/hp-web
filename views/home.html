@@ -30,15 +30,27 @@
 						</div>
 					  	<div class="hp-card-block">
 					  		<p class="hp-card-title" uib-tooltip="{{result._source.name | uppercase}}">{{result._source.name | uppercase}}</p>
-					  		<a class="card-subtitle text-muted" tabindex="0" popover-title="Description" uib-popover="{{result._source.descr}}" popover-trigger="focus">Additional Info</a>
-					  		<div class="hp-card-text text-muted">
-					  			From: <span class="text-primary"> {{result._source.price | currency:"£":2}}</span>
-					  			&nbsp; (Save: {{result._source.rrp - result._source.price | currency:"£":2}})
-					  		</div>
-					  		<div class="hp-card-text">
-					  			<uib-rating ng-model="rate" max="5" on-hover="hoveringOver($index, result._source.id, value)" on-leave="ratings[$index].overStar = null" aria-labelledby="default-rating"></uib-rating>
-    							<span class="label" ng-class="{'label-warning': ratings[$index].percent<30, 'label-info': ratings[$index].percent>=30 && ratings[$index].percent<70, 'label-success': ratings[$index].percent>=70}" ng-show="ratings[$index].overStar && !isReadonly">{{ratings[$index].percent}}%</span>
-    						</div>
+					  		<!--a class="card-subtitle text-muted" tabindex="0" popover-title="Description" uib-popover="{{result._source.descr}}" popover-trigger="focus">Additional Info</a-->
+					  		<div class="row m-r-0 p-r-1">
+					  			<div class="col-xs-8">
+						  		<div class="hp-card-text text-primary">
+						  			You Pay: {{result._source.price | currency:"£":2}}
+						  		</div>
+						  		<div class="hp-card-text text-muted">
+						  			R.Price: {{result._source.rrp | currency:"£":2}}
+						  		</div>					  		
+						  		<div class="hp-card-text">
+						  			<uib-rating ng-model="rate" max="5" on-hover="hoveringOver($index, result._source.id, value)" on-leave="ratings[$index].overStar = null" aria-labelledby="default-rating"></uib-rating>
+	    							<span class="label" ng-class="{'label-warning': ratings[$index].percent<30, 'label-info': ratings[$index].percent>=30 && ratings[$index].percent<70, 'label-success': ratings[$index].percent>=70}" ng-show="ratings[$index].overStar && !isReadonly">{{ratings[$index].percent}}%</span>
+	    						</div>
+	    						</div>
+	    						<div class="col-xs-4 text-xs-center">
+	    							<span class="label label-pill label-danger">Discount</span>
+	    							<h3>
+	    								<span class="text-warning">{{ (result._source.rrp - result._source.price)/result._source.rrp * 100 | number:0}}%</span>	
+	    							</h3>		
+	    						</div>
+	    					</div>
 					  	</div>	  	  	
 						<div class="card-footer text-xs-center">
 						   <a href ng-click="findStores(result._source.id)" class="btn btn-primary-outline btn-sm"><i class="fa fa-search"></i>&nbsp;View Stores</a>

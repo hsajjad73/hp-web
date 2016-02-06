@@ -106,14 +106,14 @@ textarea {
 
 .hp-card-block {
   margin: .5rem .65rem;
-  padding: .5rem .2rem .5rem .4rem;
-  border: 0.0625rem solid #e5e5e5;
+  //padding: .5rem .2rem .5rem .4rem;
+  //border: 0.0625rem solid #e5e5e5;
   border-radius: .25rem;
   font-size: 75%;
 }
 
 .hp-card-title {
-  margin-bottom: .25rem;
+  margin-bottom: .2rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -159,6 +159,15 @@ textarea {
 }
 .navbar-nav .nav-item + .nav-item {
     margin-left: 1.5rem;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-link.active:focus, .nav-tabs .nav-link.active:hover,
+.nav-tabs .nav-item.open .nav-link,
+.nav-tabs .nav-item.open .nav-link:focus,
+.nav-tabs .nav-item.open .nav-link:hover {
+  color: #fff;
+  background-color: #0275d8;
+  border-color: #ddd #ddd transparent;
 }
 
 .content {
